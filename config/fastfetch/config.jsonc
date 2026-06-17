@@ -1,0 +1,43 @@
+{
+    "logo": {
+        "type": "kitty",
+        "source": "~/.config/hypr/assets/icons/logo.png",
+        "width": 35,
+        "height": 35
+    },
+    "display": {
+        "separator": " : "
+    },
+    "modules": [
+        {
+            "type": "title"
+        },
+        {
+            "type": "separator"
+        },
+        {
+            "type": "os"
+        },
+        {
+            "type": "kernel"
+        },
+        {
+            "type": "uptime"
+        },
+        {
+            "type": "shell"
+        },
+        {
+            "type": "wm"
+        },
+        {
+            "type": "wmtheme"
+        },
+        {
+            "type": "font"
+        },
+        {
+            "type": "colors"
+        }
+    ]
+}
