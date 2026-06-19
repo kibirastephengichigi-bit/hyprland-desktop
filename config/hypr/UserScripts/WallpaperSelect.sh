@@ -93,7 +93,7 @@ rofi_command="rofi -i -show -dmenu -config $rofi_theme -theme-str $rofi_override
 
 # Sorting Wallpapers
 menu() {
-  IFS=$'\n' sorted_options=($(sort <<<"${PICS[*]}"))
+  mapfile -d '' sorted_options < <(printf '%s\0' "${PICS[@]}" | sort -z)
 
   printf "%s\x00icon\x1f%s\n" "$RANDOM_PIC_NAME" "$RANDOM_PIC"
 
@@ -188,8 +188,6 @@ apply_video_wallpaper() {
 # Main function
 main() {
   choice=$(menu | $rofi_command)
-  choice=$(echo "$choice" | xargs)
-  RANDOM_PIC_NAME=$(echo "$RANDOM_PIC_NAME" | xargs)
 
   if [[ -z "$choice" ]]; then
     echo "No choice selected. Exiting."
