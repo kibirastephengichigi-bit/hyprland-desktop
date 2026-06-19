@@ -1,72 +1,27 @@
-# Installation Guide
+# Installation
 
-## Prerequisites
+This installer targets Arch Linux or Arch-based systems.
 
-Before installing Hyprverse, ensure you have the following packages installed:
+## Barebones Arch Checklist
 
-### Required
-- `hyprland` - Tiling window manager
-- `waybar` - Status bar
-- `kitty` - Terminal emulator
-- `rofi` - Application launcher
-- `dunst` - Notification daemon
-- `wlogout` - Logout menu
-- `swaync` - Notification center
-- `swww` - Wallpaper daemon
+Before running the installer, make sure you have:
 
-### Optional but Recommended
-- `fastfetch` - System information
-- `cava` - Audio visualizer
-- `grim` - Screenshot tool
-- `wl-clipboard` - Clipboard manager
-- `pamixer` - Audio mixer
-- `brightnessctl` - Brightness control
-- `swaylock` - Lockscreen
+- A working internet connection
+- A user with `sudo` access
+- `git` installed
+- Optional: `yay` or `paru` for AUR packages such as `quickshell`
 
-## Installation Steps
+## Install
 
-1. Clone or download this repository:
 ```bash
-git clone https://github.com/your-username/hyprverse.git
-cd hyprverse
-```
-
-2. Make the installation script executable:
-```bash
-chmod +x install.sh
-```
-
-3. Run the installer:
-```bash
+sudo pacman -S --needed git
+git clone https://github.com/kibirastephengichigi-bit/hyprland-desktop.git
+cd hyprland-desktop
 ./install.sh
 ```
 
-4. Log out and back in, or restart your display server to apply changes.
+The script installs required packages, copies configs to `~/.config`, copies wallpapers to `~/Pictures/wallpapers`, prepares the current wallpaper, and enables common services.
 
-## Post-Installation
+## After Install
 
-### Configure Monitors
-Edit `~/.config/hypr/monitors.conf` to set up your displays:
-```conf
-monitor = DP-1,1920x1080@60,0x0,1
-monitor = HDMI-1,1920x1080@60,1920x0,1
-```
-
-### Customize Keybindings
-Edit `~/.config/hypr/keybinds.conf` to modify your shortcuts.
-
-### Set Wallpaper
-Place your wallpapers in `~/.config/hypr/assets/wallpapers/` and run:
-```bash
-~/.config/hypr/scripts/wallpaper.sh your-wallpaper.png
-```
-
-## Uninstallation
-
-To remove Hyprverse:
-```bash
-chmod +x uninstall.sh
-./uninstall.sh
-```
-
-Backups of your configurations will be saved to `~/.hyprverse_backup_*`.
+Reboot or log out, then start Hyprland. Use `Super+Shift+E` for the codecrafter settings menu.

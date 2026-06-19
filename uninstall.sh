@@ -1,41 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Hyprverse Uninstallation Script
-# This script removes the Hyprverse desktop configuration
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/codecrafter-hyprland"
+latest_backup="$(find "$STATE_DIR/backups" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort | tail -n 1 || true)"
 
-set -e
+if [ -z "$latest_backup" ]; then
+  echo "No codecrafter backup found under $STATE_DIR/backups" >&2
+  exit 1
+fi
 
-CONFIG_DIR="$HOME/.config"
+printf "Restore backup %s? [y/N] " "$latest_backup"
+read -r answer
+case "$answer" in
+  y|Y|yes|YES) ;;
+  *) echo "Cancelled."; exit 0 ;;
+esac
 
-echo "🗑️  Starting Hyprverse uninstallation..."
+if [ -d "$latest_backup/.config" ]; then
+  cp -a "$latest_backup/.config/." "$HOME/.config/"
+fi
 
-# Backup configurations before removal
-BACKUP_DIR="$HOME/.hyprverse_backup_$(date +%s)"
-mkdir -p "$BACKUP_DIR"
-
-echo "💾 Backing up configurations to $BACKUP_DIR..."
-cp -r "$CONFIG_DIR/hypr" "$BACKUP_DIR/" 2>/dev/null || true
-cp -r "$CONFIG_DIR/waybar" "$BACKUP_DIR/" 2>/dev/null || true
-cp -r "$CONFIG_DIR/kitty" "$BACKUP_DIR/" 2>/dev/null || true
-cp -r "$CONFIG_DIR/rofi" "$BACKUP_DIR/" 2>/dev/null || true
-cp -r "$CONFIG_DIR/dunst" "$BACKUP_DIR/" 2>/dev/null || true
-cp -r "$CONFIG_DIR/wlogout" "$BACKUP_DIR/" 2>/dev/null || true
-cp -r "$CONFIG_DIR/swaync" "$BACKUP_DIR/" 2>/dev/null || true
-cp -r "$CONFIG_DIR/fastfetch" "$BACKUP_DIR/" 2>/dev/null || true
-cp -r "$CONFIG_DIR/cava" "$BACKUP_DIR/" 2>/dev/null || true
-cp -r "$CONFIG_DIR/gtk-3.0" "$BACKUP_DIR/" 2>/dev/null || true
-
-echo "🗑️  Removing Hyprverse configurations..."
-rm -rf "$CONFIG_DIR/hypr"
-rm -rf "$CONFIG_DIR/waybar"
-rm -rf "$CONFIG_DIR/kitty"
-rm -rf "$CONFIG_DIR/rofi"
-rm -rf "$CONFIG_DIR/dunst"
-rm -rf "$CONFIG_DIR/wlogout"
-rm -rf "$CONFIG_DIR/swaync"
-rm -rf "$CONFIG_DIR/fastfetch"
-rm -rf "$CONFIG_DIR/cava"
-rm -rf "$CONFIG_DIR/gtk-3.0"
-
-echo "✅ Uninstallation complete!"
-echo "📦 Backups saved to: $BACKUP_DIR"
+echo "Restored latest backup. Log out and back in if Hyprland is running."
